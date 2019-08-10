@@ -20,7 +20,7 @@ public class LoginSuccess implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		
+		System.out.println("µÇÂ¼ÑéÖ¤");
 		chain.doFilter(request, response);
 		
 	}

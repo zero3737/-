@@ -164,7 +164,7 @@
 
                         if(data.code === "0") {
 
-                            window.location.href='/nbw/_nbz/login-success.html';
+                            window.location.replace(xhr.getResponseHeader("CONTEXTPATH"));
 
                         } else if(data.code === "1") {
 

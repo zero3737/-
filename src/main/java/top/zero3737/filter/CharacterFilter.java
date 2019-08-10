@@ -8,9 +8,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-public class AllFilter implements Filter {
+public class CharacterFilter implements Filter {
 
-    public AllFilter() {
+    public CharacterFilter() {
     	
     }
 
@@ -20,7 +20,7 @@ public class AllFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		response.setContentType("text/json;charset=UTF-8");
+		System.out.println("×Ö·û¹ýÂËÆ÷");
 		chain.doFilter(request, response);
 		
 	}
