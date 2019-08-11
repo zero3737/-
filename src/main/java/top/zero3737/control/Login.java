@@ -38,7 +38,7 @@ public class Login extends HttpServlet {
 			cookie.setMaxAge(60 * 30);
 			cookie.setPath("/");
 			response.addCookie(cookie);
-			response.addHeader("CONTEXTPATH", "/nbw/_nbz/login-success.html"); 
+			response.addHeader("CONTEXTPATH", "/nbw/_nbz/admin/login-success.html");
 			
 		}
 		response.getWriter().write(jsonstr);

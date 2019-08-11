@@ -30,6 +30,6 @@
   </filter>
   <filter-mapping>
     <filter-name>LoginSuccess</filter-name>
-    <url-pattern>/_nbz/login-success.html</url-pattern>
+    <url-pattern>/_nbz/admin/*</url-pattern>
   </filter-mapping>
 </web-app>

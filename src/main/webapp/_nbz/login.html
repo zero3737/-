@@ -118,6 +118,7 @@
 </script>
 <!-- 登录 -->
 <script>
+    
     function login() {
 
         $("#commentForm").validate({
@@ -159,12 +160,12 @@
                 data[name.attr("name")] = name.val();
                 data[password.attr("name")] = password.val();
                 $.post('/nbw/Login', data, function(data, status, xhr) {
-
+                    console.log(data);
                     if(status === "success") {
 
                         if(data.code === "0") {
 
-                            window.location.replace(xhr.getResponseHeader("CONTEXTPATH"));
+                            window.location.href = xhr.getResponseHeader("CONTEXTPATH");
 
                         } else if(data.code === "1") {
 
