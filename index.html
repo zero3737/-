@@ -10,26 +10,55 @@
     <link href="https://fonts.googleapis.com/css?family=K2D:300,400,500,700,800" rel="stylesheet" />
     <!-- Bootstrap CSS / Color Scheme -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <style>
+        body {
+
+            background: url(./images/cs.png) no-repeat fixed center center;
+            background-size: contain;
+
+        }
+
+        .mengban {
+
+            width: 100%;
+            position: fixed;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .4);
+
+        }
+
+        .fangkuai {
+
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 20px;
+            border: 3px solid #65cdc0;
+
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .guanyuwomen {
+
+                display: none;
+
+            }
+
+        }
+    </style>
 </head>
 
 <body>
+    <div class="mengban"></div>
     <!--navigation-->
-    <section class="bh-white py-3">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <a href="index.html" class="heading-brand text-primary">登录</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section style="height: 20vh;"></section>
     <!--hero header-->
     <section class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-7 my-md-auto">
+                <div class="col-md-7 my-md-auto guanyuwomen">
                     <h1 class="text-center text-md-left">
-                        关于我们
+                        <span class="fangkuai">关于我们</span>
                     </h1>
                     <div class="row feature-grid">
                         <div class="col-sm-6">
@@ -85,8 +114,8 @@
                 <div class="col-md-5 pl-md-5">
                     <div class="card">
                         <div class="card-body py-md-4">
-                            <h2>赶快加入我们</h2>
-                            <p class="lead text-muted">专业的技术支持</p>
+                            <h2>信息公告系统</h2>
+                            <p class="lead text-muted">最新的信息咨询</p>
                             <form id="commentForm">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="username" placeholder="用户名"
@@ -119,6 +148,19 @@
             // init feather icons
             feather.replace();
         });
+    </script>
+    <!-- 加载 json 配置 -->
+    <script>
+        // 项目接口 URL
+        var URL,
+            LOGIN_USER;
+
+        $.getJSON("config.json", function (data) {
+
+            URL = data.url;
+            LOGIN_USER = data.loginUser;
+
+        })
     </script>
     <!-- 登录 -->
     <script>
@@ -163,30 +205,28 @@
 
                     data[name.attr("name")] = name.val();
                     data[password.attr("name")] = password.val();
-                    $.post('/nbw/Login', data, function (data, status, xhr) {
-                        console.log(data);
-                        if (status === "success") {
+                    $.ajax({
+                        type: "POST",
+                        url: URL + LOGIN_USER,
+                        data: data,
+                        xhrFields: {
 
-                            if (data.code === "0") {
+                            withCredentials: true // 携带跨域cookie
 
-                                window.location.href = xhr.getResponseHeader("CONTEXTPATH");
+                        },
+                        success: function (data) {
 
-                            } else if (data.code === "1") {
+                            if (data.code === "1") {
 
-                                layer.msg(data.msg);
+                                window.location = data.url;
 
-                            } else if (data.code === "2") {
+                            } else if (data.code === "0") {
 
                                 layer.msg(data.msg);
 
                             }
 
-                        } else {
-
-                            layer.msg("请求失败，可能是网络原因");
-
                         }
-
                     });
 
                 },
