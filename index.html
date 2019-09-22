@@ -45,13 +45,37 @@
             }
 
         }
+
+        #div-verifycode {
+
+            display: flex;
+
+        }
+
+        #div-verifycode img {
+
+            margin: 0 auto;
+
+        }
+
+        .box-verifycode {
+
+            display: flex;
+
+        }
+
+        .box-verifycode>div {
+
+            flex: 1;
+
+        }
     </style>
 </head>
 
 <body>
     <div class="mengban"></div>
     <!--navigation-->
-    <section style="height: 20vh;"></section>
+    <section style="height: 10vh;"></section>
     <!--hero header-->
     <section class="py-5">
         <div class="container">
@@ -125,6 +149,13 @@
                                     <input type="password" class="form-control" id="password" placeholder="密码"
                                         name="password" autocomplete="off" required>
                                 </div>
+                                <div class="box-verifycode">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="verifycode" placeholder="验证码"
+                                            name="verifycode" autocomplete="off" required>
+                                    </div>
+                                    <div id="div-verifycode"></div>
+                                </div>
                                 <div class="d-flex flex-row align-items-center justify-content-between">
                                     <button type="submit" class="btn btn-primary" onclick="login()">登录</button>
                                 </div>
@@ -151,20 +182,43 @@
     </script>
     <!-- 加载 json 配置 -->
     <script>
-        // 项目接口 URL
-        var URL,
-            LOGIN_USER;
+        // 服务器地址
+        let SERVERURL;
+        // 后端项目名
+        let PROJECTNAME;
+        // 用户登录接口
+        let LOGINUSER;
+        // 验证码接口
+        let GETVERIFYCODE;
 
         $.getJSON("config.json", function (data) {
 
-            URL = data.url;
-            LOGIN_USER = data.loginUser;
+            SERVERURL = data.serverUrl;
+            PROJECTNAME = data.projectName;
+            LOGINUSER = data.loginUser;
+            GETVERIFYCODE = data.getVerifyCode;
+
+            // 刷新验证码
+            $("#div-verifycode").html(`
+                
+                <img src="${SERVERURL}${PROJECTNAME}${GETVERIFYCODE}" height="43.36" id="img-verifycode">
+                
+            `);
+            $("body").delegate("#img-verifycode", "click", function () {
+
+                let random = Math.random();
+                $("#div-verifycode").html(`
+                
+                    <img src="${SERVERURL}${PROJECTNAME}${GETVERIFYCODE}?${random}" height="43.36" id="img-verifycode">
+
+                `);
+
+            });
 
         })
     </script>
     <!-- 登录 -->
     <script>
-
         function login() {
 
             $("#commentForm").validate({
@@ -180,19 +234,10 @@
 
                         required: true
 
-                    }
-
-                },
-                messages: {
-
-                    username: {
-
-                        required: "必填"
-
                     },
-                    password: {
+                    verifycode: {
 
-                        required: "必填"
+                        required: true
 
                     }
 
@@ -201,13 +246,16 @@
 
                     let name = $("#username"),
                         password = $("#password"),
+                        verifycode = $("#verifycode"),
                         data = {};
 
                     data[name.attr("name")] = name.val();
                     data[password.attr("name")] = password.val();
+                    data[verifycode.attr("name")] = verifycode.val();
                     $.ajax({
+
                         type: "POST",
-                        url: URL + LOGIN_USER,
+                        url: SERVERURL + PROJECTNAME + LOGINUSER,
                         data: data,
                         xhrFields: {
 
@@ -227,6 +275,7 @@
                             }
 
                         }
+
                     });
 
                 },

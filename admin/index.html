@@ -332,12 +332,12 @@
         <div id="login_wrap">
             <div id="login">
                 <span>
-                    <form action="post">
-                        <p class="form"><input type="text" id="user" placeholder="管理员用户名"></p>
-                        <p class="form"><input type="password" id="passwd" placeholder="密码"></p>
+                    <form id="commentForm">
+                        <p class="form"><input type="text" id="username" placeholder="管理员用户名" name="username" autocomplete="off"></p>
+                        <p class="form"><input type="password" id="password" placeholder="密码" name="password" autocomplete="off"></p>
                         <p class="form confirm"><input type="password" id="confirm-passwd"
                                 placeholder="confirm password"></p>
-                        <button class="btn">登录</button>
+                        <button class="btn" onclick="login()">登录</button>
                     </form>
                 </span>
             </div>
@@ -366,6 +366,90 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <!-- 加载 json 配置 -->
+    <script>
+        // 服务器地址
+        let SERVERURL;
+        // 后端项目名
+        let PROJECTNAME;
+        // 管理员登录接口
+        let LOGINADMIN;
+
+        $.getJSON("../config.json", function (data) {
+
+            SERVERURL = data.serverUrl;
+            PROJECTNAME = data.projectName;
+            LOGINADMIN = data.loginAdmin;
+
+        })
+    </script>
+    <!-- 登录 -->
+    <script>
+
+        function login() {
+
+            $("#commentForm").validate({
+
+                rules: {
+
+                    username: {
+
+                        required: true
+
+                    },
+                    password: {
+
+                        required: true
+
+                    }
+
+                },
+                submitHandler: function () {
+
+                    let name = $("#username"),
+                        password = $("#password"),
+                        data = {};
+
+                    data[name.attr("name")] = name.val();
+                    data[password.attr("name")] = password.val();
+                    $.ajax({
+                        type: "POST",
+                        url: SERVERURL + PROJECTNAME + LOGINADMIN,
+                        data: data,
+                        xhrFields: {
+
+                            withCredentials: true // 携带跨域cookie
+
+                        },
+                        success: function (data) {
+
+                            if (data.code === "1") {
+
+                                window.location = data.url;
+
+                            } else if (data.code === "0") {
+
+                                layer.msg(data.msg);
+
+                            }
+
+                        }
+                    });
+
+                },
+                errorPlacement: function (error, element) {
+
+                    layer.msg($(element[0]).attr("placeholder") + "不能为空");
+
+                }
+
+            });
+
+        }
+    </script>
 </body>
 
 </html>

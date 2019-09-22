@@ -1,4 +1,7 @@
 {
-    "url": "http://localhost:8081",
-    "loginUser": "/zy-nbz-login/loginuser"
+    "serverUrl": "http://localhost:8081",
+    "projectName": "/zy-nbz-server",
+    "loginUser": "/loginuser",
+    "loginAdmin": "/loginadmin",
+    "getVerifyCode": "/getverifycode"
 }
