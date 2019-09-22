@@ -1,0 +1,9 @@
+{
+
+    "projectName": "/zy-nbz-server",
+    "logoutApi": "/logoutuser",
+    "logoutAdminApi": "/logoutadmin",
+    "addContent": "/addcontent",
+    "findContent": "/findcontent"
+
+}
